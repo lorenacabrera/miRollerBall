@@ -1,6 +1,5 @@
 RollerBall es un juego 3D en Unity donde el jugador controla una bola que debe recolectar objetos (pickups) para completar niveles evitando obstaculos. El objetivo es recoger todos los objetos en cada nivel y evitar caer del plano.
 
- 
  Pre-Requisitos
 Que cosas necesitas para instalar el software y cómo instalarlas
     • Unity versión 2020.3 o superior. 
