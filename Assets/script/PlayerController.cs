@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         gameOverText.gameObject.SetActive(false);
     }
 
-    // Movimiento: nuevo Input System
+    // Movimiento con nuevo Input System
     void OnMove(InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
         movementY = movementVector.y; 
     }
 
-    // Actualizar contador de recolectables
+    // Actualizar contador de objetos
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
@@ -55,30 +55,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Físicas del jugador
-    private void FixedUpdate();
-   private void FixedUpdate()
-{
-    if (isGameOver) return;  // Bloquear controles si hay Game Over
-
-    // Movimiento
-    Vector3 movement = new Vector3(movementX, 0.0f, movementY);
-    rb.AddForce(movement * speed);
-
-    // Salto
-    if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+    // Física del jugador
+    private void FixedUpdate()
     {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        isGrounded = false;
-    }
+        if (isGameOver) return;  // Bloquear controles si hay Game Over
 
-    // Detectar caída
-    if (transform.position.y < fallLimit)
-    {
-        GameOver();
-    }
-}
+        // Movimiento
+        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
+        rb.AddForce(movement * speed);
 
+        // Salto
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
+
+        // Detectar caída
+        if (transform.position.y < fallLimit)
+        {
+            GameOver();
+        }
+    }
 
     // Recolección de objetos
     private void OnTriggerEnter(Collider other)
@@ -87,12 +85,11 @@ public class PlayerController : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             count++;
-
             SetCountText();
         }
     }
 
-    // Detectar si toca el suelo para saltar
+    // Detección de suelo para salto
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -112,10 +109,10 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.isKinematic = true;
 
-        // Mostrar mensaje
+        // Mostrar texto Game Over
         gameOverText.gameObject.SetActive(true);
 
-        // Reiniciar la escena después de 3 segundos
+        // Reiniciar escena después de 3 segundos
         Invoke("RestartLevel", 3f);
     }
 
